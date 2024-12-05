@@ -1,0 +1,135 @@
+\documentclass{bmstu}
+
+\begin{document}
+
+\makereporttitle
+{Информатика и системы управления (ИУ)}
+{Программное обеспечение ЭВМ и информационные технологии (ИУ7)}
+{\textbf{1}}
+{Методы вычислений}
+{Венгерский метод решения задачи о назначениях}
+{9}
+{ИУ7-12М}
+{К.Э. Ковалец}
+{П.А. Власов}
+
+
+\setcounter{page}{2}
+% \renewcommand{\contentsname}{Содержание} 
+% \tableofcontents
+
+
+\chapter{Теоретическая часть}
+
+\textbf{Цель работы:} изучение венгерского метода решения задачи о назначениях.
+
+\textbf{Задание:}
+\begin{enumerate}
+    \item Реализовать венгерский метод решения задачи о назначениях в виде программы на ЭВМ.
+    \item Провести решение задачи с матрицей стоимостей, заданной в индивидуальном варианте, рассмотрев два случая:
+    \begin{itemize}
+        \item задача о назначениях является задачей минимизации,
+        \item задача о назначениях является задачей максимизации.
+    \end{itemize}
+\end{enumerate}
+
+\section{Cодержательная и математическая постановки задачи о назаначениях}
+
+\textbf{Содержательная постановка:} имеется $n$ работ и $n$ испытателей; стоимость выполнения $i$-ой работы $j$-ым исполнителем составляет $c_{ij} \geqslant 0$ единиц. Требуется распределить все работы между исполнителями так, чтобы
+\begin{itemize}
+    \item каждый исполнитель выполнял 1 работу;
+    \item каждую работу выполнял только 1 исполнитель;
+    \item общая стоимость выполнения всех работ была $min$.
+\end{itemize}
+
+Введем управляемые переменные:
+\begin{align}
+    x_{ij} & =
+    \begin{cases}
+        1, \: \text{если $i$-ую работу выполняет $j$-ый работник}, \\
+        0, \: \text{иначе};
+    \end{cases} \nonumber \\
+    i, j & = \overline{1; n}. 
+\end{align}
+
+Из переменных $x_{ij}$, $i,j = \overline{1; n}$, составим 
+\begin{equation}
+    X = (x_{ij})_{i,j = \overline{1; n}},
+\end{equation}
+которую назовем матрицей назначений.
+
+Стоимости выполнения работ также записываем в матрицу
+\begin{equation}
+    C = (c_{ij})_{i,j = \overline{1; n}},
+\end{equation}
+называемой матрицей стоимостей.
+
+Тогда:
+\begin{enumerate}
+    \item Стоимость выполнения работ:
+        \begin{equation}
+            f = \sum_{i=1}^n \sum_{j=1}^n c_{ij} x_{ij}.
+        \end{equation}
+    \item Условие того, что $i$-ую работу выполнит один работник:
+        \begin{equation}
+            \sum_{j=1}^n x_{ij} = 1, \: i = \overline{1; n}.
+        \end{equation}
+    \item Условие того, что $j$-ый работник выполнит одну работу:
+        \begin{equation}
+            \sum_{i=1}^n x_{ij} = 1, \: j = \overline{1; n}.
+        \end{equation}
+\end{enumerate}
+
+Таким образом приходим к \textbf{математической постановке}:
+\begin{equation}
+    \begin{cases}
+        f = \sum_{i=1}^n \sum_{j=1}^n c_{ij} x_{ij} \rightarrow min, \\
+        \sum_{j=1}^n x_{ij} = 1, \: i = \overline{1; n}, \\
+        \sum_{i=1}^n x_{ij} = 1, \: j = \overline{1; n}, \\
+        x_{ij} \in \{0, 1\}, \: i,j = \overline{1; n}.
+    \end{cases}
+\end{equation}
+
+\section{Исходные данные конкретного варианта}
+
+Вариант \textbf{9}:
+\begin{equation}
+    C = 
+    \begin{bmatrix}
+        4 & 7 & 1 & 5 & 5 \\
+        6 & 8 & 3 & 7 & 6 \\
+        6 & 4 & 5 & 7 & 7 \\
+        4 & 2 & 3 & 4 & 9 \\
+        8 & 1 & 8 & 3 & 8
+    \end{bmatrix}
+\end{equation}
+
+\section{Краткое описание венгерского метода}
+
+Схема венгерского метода решения задачи о назначениях представлена на рисунках \ref{img:hungarian_algorithm_1}--\ref{img:hungarian_algorithm_2}. 
+
+\imgs{hungarian_algorithm_1}{h!}{0.57}{Схема венгерского метода решения задачи о назначениях (часть 1)}
+
+\imgs{hungarian_algorithm_2}{h!}{0.63}{Схема венгерского метода решения задачи о назначениях (часть 2)}
+
+\chapter{Практическая часть}
+
+\section{Текст программы}
+
+В листинге \ref{lst:lab_01} представлен код программы.
+
+\mylisting[matlab]{lab_01.m}{firstline=1,lastline=358}{Код программы}{lab_01}{}
+
+\clearpage
+
+\section{Результаты расчетов для задач из индивидуального варианта}
+
+В листинге \ref{lst:minimization_debug} представлены расчеты для задачи минимизации.
+
+\mylisting[text]{minimization_debug.txt}{firstline=1,lastline=175}{Задача минимизации}{minimization_debug}{}
+
+В листинге \ref{lst:maximization_debug} представлены расчеты для задачи максимизации.
+
+\mylisting[text]{maximization_debug.txt}{firstline=1,lastline=121}{Задача максимизации}{maximization_debug}{}
+
+\end{document}
